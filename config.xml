@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+    xmlns:gap   = "http://phonegap.com/ns/1.0"
+    id          = "com.cunningsoft.toytrain"
+    version     = "0.0.1" >
+
+    <name>Toy Train</name>
+
+    <description />
+
+    <author email="daniel.mecke@cunningsoft.de">
+        Daniel Mecke
+    </author>
+
+    <platform name="android" />
+    <preference name="permissions" value="none" />
+</widget>

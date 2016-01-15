@@ -1,0 +1,8 @@
+{
+    "compileOptions": {
+        "sourceMap": true
+    },
+    "files": [
+        "app.js"
+    ]
+}

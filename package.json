@@ -1,0 +1,11 @@
+{
+    "devDependencies": {
+        "typescript": "*",
+        "webpack": "*",
+        "ts-loader": "*",
+        "babel-loader": "*",
+        "babel-core": "*",
+        "babel-preset-es2015": "*",
+        "browser-sync-webpack-plugin": "*"
+    }
+}
