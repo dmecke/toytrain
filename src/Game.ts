@@ -52,7 +52,7 @@ class Game
         this.createLongStraight();
         this.createLongStraight();
         this.createLongStraight();
-        //this.createCurve();
+        this.createCurve();
     }
 
     private createShortStraight():void
@@ -99,24 +99,50 @@ class Game
 
     private createCurve():void
     {
-        this.createTrack(
-            [
-                [-3.5, -0.2],
-                [2.5, 2.2],
-                [3.5, 0.8],
-                [-3.5, -2.2],
-            ],
-            [0, 0.4],
-            [0, -0.4]
-        );
+        var outerRadius = 1;
+        var innerRadius = 0.8;
+        var mediumRadius = (outerRadius + innerRadius) / 2;
+        var path = [];
+        var step = Math.PI / 128;
+        var min = -Math.PI / 8;
+        var max = Math.PI / 4 + min;
+        
+        for (var outer = min; outer <= max; outer += step) {
+            path.push([
+                outerRadius * Math.cos(outer) - mediumRadius,
+                outerRadius * Math.sin(outer)
+            ]);
+        }
+        var pin = [
+            (outerRadius * Math.cos(outer) + innerRadius * Math.cos(max)) / 2 - mediumRadius,
+            (outerRadius * Math.sin(outer) + innerRadius * Math.sin(max)) / 2
+        ];
+
+        for (var inner = max; inner >= min; inner -= step) {
+            path.push([
+                innerRadius * Math.cos(inner) - mediumRadius,
+                innerRadius * Math.sin(inner)
+            ]);
+        }
+        var hole = [
+            (outerRadius * Math.cos(min) + innerRadius * Math.cos(inner)) / 2 - mediumRadius,
+            (outerRadius * Math.sin(min) + innerRadius * Math.sin(inner)) / 2
+        ];
+        this.createTrack(path, pin, hole);
     }
 
     private createTrack(path:number[][], pin:number[], hole:number[]):void
     {
         var track = new p2.Body({ mass: 0.1, position: [this.world.bodies.length / 5, 0] });
         var shape = new p2.Convex({ vertices: path });
+        shape.updateCenterOfMass();
+        shape.updateBoundingRadius();
+        shape.updateArea();
         track.addShape(shape);
         track.addShape(new p2.Circle({ radius: 0.05 }), pin);
+        track.updateBoundingRadius();
+        track.updateMassProperties();
+        track.updateAABB();
         track.pin = pin;
         track.hole = hole;
         track.collisionResponse = false;
